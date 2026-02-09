@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aritz Abuin — Soluciones IA & Consultoría para empresas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #060a10;
+            --bg-secondary: #0b1120;
+            --bg-card: #0f1729;
+            --bg-card-hover: #141e35;
+            --border: #1a2744;
+            --border-accent: #243556;
+            --text-primary: #eef2f7;
+            --text-secondary: #8a9bba;
+            --text-muted: #5a6d8a;
+            --accent: #3b8df5;
+            --accent-bright: #5ea3ff;
+            --accent-dim: #2a6fc9;
+            --accent-glow: rgba(59, 141, 245, 0.10);
+            --accent-glow-strong: rgba(59, 141, 245, 0.22);
+            --accent-sky: #7ec8f0;
+            --mono: 'JetBrains Mono', monospace;
+            --sans: 'DM Sans', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; font-size: 16px; }
+
+        body {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: var(--sans);
+            line-height: 1.65;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        .container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+        section { padding: 100px 0; }
+
+        /* ═══════ NAV ═══════ */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            padding: 16px 0;
+            background: rgba(6, 10, 16, 0.88);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        nav .container { display: flex; justify-content: space-between; align-items: center; }
+
+        .nav-logo {
+            font-family: var(--mono);
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            letter-spacing: 0.05em;
+            cursor: pointer;
+        }
+        .nav-logo span { color: var(--accent); }
+
+        .nav-links { display: flex; align-items: center; gap: 28px; }
+
+        .nav-link {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            cursor: pointer;
+            transition: color 0.3s;
+            border: none;
+            background: none;
+            font-family: var(--sans);
+        }
+        .nav-link:hover { color: var(--text-primary); }
+
+        .nav-cta {
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent);
+            text-decoration: none;
+            padding: 8px 20px;
+            border: 1px solid var(--accent-dim);
+            border-radius: 4px;
+            cursor: pointer;
+            background: none;
+            transition: all 0.3s ease;
+        }
+        .nav-cta:hover { background: var(--accent-glow); border-color: var(--accent); }
+
+        /* ═══════ HERO ═══════ */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            padding-top: 80px;
+        }
+
+        .hero-glow-1 {
+            position: absolute;
+            top: 10%; right: -20%;
+            width: 700px; height: 700px;
+            background: radial-gradient(circle, rgba(59,141,245,0.08) 0%, rgba(126,200,240,0.03) 40%, transparent 70%);
+            filter: blur(60px);
+            pointer-events: none;
+        }
+
+        .hero-glow-2 {
+            position: absolute;
+            bottom: 20%; left: -10%;
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(13,33,55,0.6) 0%, transparent 70%);
+            filter: blur(50px);
+            pointer-events: none;
+        }
+
+        .hero-content { position: relative; z-index: 2; max-width: 780px; }
+
+        .hero-tag {
+            font-family: var(--mono);
+            font-size: 0.78rem;
+            color: var(--accent);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 28px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.2s forwards;
+        }
+        .hero-tag::before { content: ''; display: block; width: 24px; height: 1px; background: var(--accent); }
+
+        .hero h1 {
+            font-size: clamp(2.4rem, 5.5vw, 3.8rem);
+            font-weight: 700;
+            line-height: 1.12;
+            letter-spacing: -0.03em;
+            margin-bottom: 28px;
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.4s forwards;
+        }
+        .hero h1 em {
+            font-style: normal;
+            background: linear-gradient(135deg, var(--accent-bright), var(--accent-sky));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-sub {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 44px;
+            max-width: 600px;
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.6s forwards;
+        }
+
+        .hero-actions {
+            display: flex; gap: 16px; align-items: center; flex-wrap: wrap;
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.8s forwards;
+        }
+
+        .btn-primary {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 14px 32px;
+            background: var(--accent);
+            color: #fff;
+            font-family: var(--sans);
+            font-weight: 600;
+            font-size: 0.95rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover { background: var(--accent-bright); transform: translateY(-2px); box-shadow: 0 8px 30px var(--accent-glow-strong); }
+
+        .btn-secondary {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 14px 32px;
+            background: transparent;
+            color: var(--text-secondary);
+            font-family: var(--sans);
+            font-weight: 500;
+            font-size: 0.95rem;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .btn-secondary:hover { border-color: var(--border-accent); color: var(--text-primary); }
+
+        /* ═══════ IMPACT BAR ═══════ */
+        .impact-bar {
+            padding: 56px 0;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            background: var(--bg-secondary);
+        }
+        .impact-items { display: flex; justify-content: center; gap: 72px; flex-wrap: wrap; }
+        .impact-item { text-align: center; }
+        .impact-number { font-family: var(--mono); font-size: 2.2rem; font-weight: 700; color: var(--text-primary); line-height: 1; }
+        .impact-number span { color: var(--accent); }
+        .impact-label { font-size: 0.82rem; color: var(--text-muted); margin-top: 6px; }
+
+        /* ═══════ PROBLEMS ═══════ */
+        .problems { background: var(--bg-secondary); }
+
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-top: 56px;
+        }
+
+        .problem-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 30px 26px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .problem-card::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-dim), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .problem-card:hover { border-color: var(--border-accent); background: var(--bg-card-hover); transform: translateY(-2px); }
+        .problem-card:hover::after { opacity: 1; }
+        .problem-icon { font-size: 1.5rem; margin-bottom: 14px; }
+        .problem-card h3 { font-size: 0.98rem; font-weight: 600; margin-bottom: 10px; line-height: 1.35; }
+        .problem-card p { color: var(--text-secondary); font-size: 0.85rem; line-height: 1.6; }
+
+        /* ═══════ SERVICES ═══════ */
+        .services-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 56px; }
+
+        .service-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 40px 36px;
+            transition: all 0.3s ease;
+        }
+        .service-card:hover { border-color: var(--accent-dim); background: var(--bg-card-hover); }
+
+        .service-icon {
+            width: 48px; height: 48px;
+            border-radius: 10px;
+            background: var(--accent-glow);
+            border: 1px solid var(--border-accent);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+        }
+        .service-card h3 { font-size: 1.15rem; font-weight: 600; margin-bottom: 12px; }
+        .service-card p { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.65; margin-bottom: 20px; }
+
+        .service-includes { list-style: none; padding: 0; }
+        .service-includes li { font-size: 0.82rem; color: var(--text-secondary); padding: 5px 0; display: flex; align-items: center; gap: 8px; }
+        .service-includes li::before { content: '\2192'; color: var(--accent); font-family: var(--mono); font-size: 0.75rem; }
+
+        /* ═══════ PROCESS ═══════ */
+        .process { background: var(--bg-secondary); }
+        .process-steps { margin-top: 56px; }
+
+        .step {
+            display: grid;
+            grid-template-columns: 80px 1fr;
+            gap: 32px;
+            padding: 40px 0;
+            border-bottom: 1px solid var(--border);
+            align-items: start;
+        }
+        .step:last-child { border-bottom: none; }
+
+        .step-number {
+            font-family: var(--mono);
+            font-size: 3rem;
+            font-weight: 700;
+            color: transparent;
+            -webkit-text-stroke: 1px var(--border-accent);
+            line-height: 1;
+        }
+        .step-content h3 { font-size: 1.15rem; font-weight: 600; margin-bottom: 10px; }
+        .step-content p { color: var(--text-secondary); font-size: 0.92rem; max-width: 540px; }
+
+        /* ═══════ CASES ═══════ */
+        .case-grid { display: grid; grid-template-columns: 1fr; gap: 24px; margin-top: 56px; }
+
+        .case-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            display: grid;
+            grid-template-columns: 1fr auto;
+        }
+        .case-card:hover { border-color: var(--accent-dim); box-shadow: 0 8px 40px rgba(59,141,245,0.06); }
+
+        .case-main { padding: 32px 36px; }
+        .case-industry { font-family: var(--mono); font-size: 0.7rem; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; }
+        .case-main h3 { font-size: 1.15rem; font-weight: 600; line-height: 1.4; margin-bottom: 12px; }
+        .case-main p { color: var(--text-secondary); font-size: 0.88rem; line-height: 1.65; }
+
+        .case-stats {
+            background: var(--bg-secondary);
+            border-left: 1px solid var(--border);
+            padding: 32px 36px;
+            display: flex; flex-direction: column; justify-content: center; gap: 24px;
+            min-width: 220px;
+        }
+        .case-stat-value { font-family: var(--mono); font-size: 1.6rem; font-weight: 700; color: var(--accent-bright); line-height: 1.1; }
+        .case-stat-label { font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; }
+
+        .case-highlight {
+            background: var(--accent-glow);
+            border: 1px solid var(--accent-dim);
+            border-radius: 8px;
+            padding: 20px 24px;
+            margin-top: 16px;
+        }
+        .case-highlight p { font-size: 0.88rem; color: var(--accent-sky); line-height: 1.55; }
+        .case-highlight strong { color: var(--text-primary); font-weight: 600; }
+
+        .current-work {
+            margin-top: 40px;
+            padding: 32px 36px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+        .current-work::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 3px; height: 100%;
+            background: linear-gradient(to bottom, var(--accent), var(--accent-sky));
+        }
+        .current-label {
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            color: var(--accent);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 14px;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .pulse-dot {
+            width: 7px; height: 7px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; box-shadow: 0 0 0 0 var(--accent-glow-strong); }
+            50% { opacity: 0.7; box-shadow: 0 0 0 6px transparent; }
+        }
+        .current-tags { display: flex; flex-wrap: wrap; gap: 10px; }
+        .current-tag {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            padding: 6px 16px;
+            border-radius: 20px;
+        }
+
+        /* ═══════ SECTION HEADERS ═══════ */
+        .section-tag { font-family: var(--mono); font-size: 0.72rem; color: var(--accent); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 16px; }
+        .section-title { font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 20px; }
+        .section-desc { color: var(--text-secondary); font-size: 1.05rem; max-width: 560px; line-height: 1.7; }
+
+        /* ═══════ CONTACT ═══════ */
+        .contact { text-align: center; }
+
+        .contact-box {
+            max-width: 640px;
+            margin: 48px auto 0;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 48px 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        .contact-box::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), var(--accent-sky), transparent);
+        }
+        .contact-box h3 { font-size: 1.4rem; font-weight: 600; margin-bottom: 12px; }
+        .contact-box > p { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 32px; }
+
+        .form-group { margin-bottom: 16px; text-align: left; }
+        .form-group label { display: block; font-size: 0.8rem; font-weight: 500; color: var(--text-secondary); margin-bottom: 6px; }
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 13px 16px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-family: var(--sans);
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+        .form-group input::placeholder,
+        .form-group textarea::placeholder { color: var(--text-muted); }
+        .form-group input:focus,
+        .form-group textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
+        .form-group textarea { min-height: 110px; resize: vertical; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+        .btn-submit {
+            width: 100%;
+            margin-top: 12px;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-bright));
+            color: #fff;
+            font-family: var(--sans);
+            font-weight: 600;
+            font-size: 1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.35s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-submit::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+            transition: left 0.5s ease;
+        }
+        .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 30px var(--accent-glow-strong); }
+        .btn-submit:hover::before { left: 100%; }
+        .btn-submit:active { transform: translateY(0); }
+        .btn-submit-arrow { transition: transform 0.3s ease; font-size: 1.1rem; }
+        .btn-submit:hover .btn-submit-arrow { transform: translateX(4px); }
+
+        .form-success {
+            display: none;
+            text-align: center;
+            padding: 40px 20px;
+        }
+        .form-success .check {
+            width: 56px; height: 56px;
+            border-radius: 50%;
+            background: var(--accent-glow);
+            border: 2px solid var(--accent);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem;
+            margin: 0 auto 16px;
+        }
+        .form-success h4 { font-size: 1.1rem; margin-bottom: 8px; }
+        .form-success p { color: var(--text-secondary); font-size: 0.9rem; }
+
+        /* ═══════ FOOTER ═══════ */
+        footer {
+            padding: 40px 0;
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+        .footer-links { display: flex; justify-content: center; gap: 32px; margin-bottom: 20px; }
+        .footer-links a { font-size: 0.85rem; color: var(--text-muted); text-decoration: none; transition: color 0.3s; }
+        .footer-links a:hover { color: var(--accent); }
+        footer p { font-size: 0.78rem; color: var(--text-muted); }
+
+        /* ═══════ ANIMATIONS ═══════ */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        /* ═══════ RESPONSIVE ═══════ */
+        @media (max-width: 768px) {
+            section { padding: 72px 0; }
+            .impact-items { gap: 36px; }
+            .problem-grid { grid-template-columns: 1fr; }
+            .services-grid { grid-template-columns: 1fr; }
+            .case-card { grid-template-columns: 1fr; }
+            .case-stats { border-left: none; border-top: 1px solid var(--border); flex-direction: row; flex-wrap: wrap; min-width: unset; }
+            .form-row { grid-template-columns: 1fr; }
+            .step { grid-template-columns: 48px 1fr; gap: 20px; }
+            .step-number { font-size: 2.2rem; }
+            .contact-box { padding: 32px 24px; }
+            .hero-actions { flex-direction: column; align-items: flex-start; }
+            .nav-link { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+    <div class="container">
+        <div class="nav-logo" onclick="scrollTo('hero')">aritz<span>.</span>ia</div>
+        <div class="nav-links">
+            <button class="nav-link" onclick="scrollTo('servicios')">Servicios</button>
+            <button class="nav-link" onclick="scrollTo('casos')">Resultados</button>
+            <button class="nav-cta" onclick="scrollTo('contacto')">Hablemos</button>
+        </div>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+    <div class="hero-glow-1"></div>
+    <div class="hero-glow-2"></div>
+    <div class="container">
+        <div class="hero-content">
+            <div class="hero-tag">Soluciones IA & Consultoría estratégica</div>
+            <h1>Tu empresa tiene problemas que se resuelven con IA.<br><em>Yo los encuentro y los resuelvo.</em></h1>
+            <p class="hero-sub">Procesos que devoran horas. Datos que nadie explota. Decisiones que se toman a ciegas. Convierto esos problemas en soluciones de IA que funcionan en producción — y te devuelven tiempo, dinero y control.</p>
+            <div class="hero-actions">
+                <button class="btn-primary" onclick="scrollTo('contacto')">Cuéntame tu problema &rarr;</button>
+                <button class="btn-secondary" onclick="scrollTo('casos')">Ver resultados reales</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- IMPACT BAR -->
+<div class="impact-bar">
+    <div class="container">
+        <div class="impact-items">
+            <div class="impact-item">
+                <div class="impact-number">360<span>h</span></div>
+                <div class="impact-label">Ahorradas al año a una directora financiera</div>
+            </div>
+            <div class="impact-item">
+                <div class="impact-number">85<span>%</span></div>
+                <div class="impact-label">Jornada laboral liberada con automatización</div>
+            </div>
+            <div class="impact-item">
+                <div class="impact-number">100<span>%</span></div>
+                <div class="impact-label">Soluciones en producción real</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- PROBLEMS -->
+<section class="problems">
+    <div class="container">
+        <div class="section-tag reveal">¿Te identificas?</div>
+        <h2 class="section-title reveal">Problemas que ves todos los días<br>y que tienen solución</h2>
+        <p class="section-desc reveal">Si diriges una empresa o un equipo, es probable que estés perdiendo dinero en al menos dos de estos.</p>
+        <div class="problem-grid">
+            <div class="problem-card reveal">
+                <div class="problem-icon">⏳</div>
+                <h3>Tu equipo dedica horas a tareas que una máquina haría en segundos</h3>
+                <p>Copiar datos entre sistemas, generar reportes, procesar pedidos, actualizar inventarios. Cada hora manual es dinero tirado y talento desperdiciado en trabajo mecánico.</p>
+            </div>
+            <div class="problem-card reveal">
+                <div class="problem-icon">🔌</div>
+                <h3>Tus herramientas no se hablan entre sí</h3>
+                <p>CRM, ERP, hojas de cálculo, emails, WhatsApp... La información existe pero vive en 5 sitios distintos. Nadie tiene la foto completa y las decisiones se toman con datos incompletos.</p>
+            </div>
+            <div class="problem-card reveal">
+                <div class="problem-icon">💰</div>
+                <h3>Pagas a perfiles senior para que hagan trabajo de becario</h3>
+                <p>Tu directora financiera, tu responsable de operaciones, tu equipo comercial — dedicando el 40-80% de su jornada a tareas administrativas que no requieren su experiencia ni su criterio.</p>
+            </div>
+            <div class="problem-card reveal">
+                <div class="problem-icon">📊</div>
+                <h3>Tienes datos de oro que nadie está explotando</h3>
+                <p>Históricos de ventas, datos de clientes, métricas operativas... todo almacenado pero sin analizar. Tu competencia ya está usando IA para extraer insights. Tú todavía miras Excel.</p>
+            </div>
+            <div class="problem-card reveal">
+                <div class="problem-icon">🐌</div>
+                <h3>Escalar significa contratar más gente</h3>
+                <p>Cada vez que creces, necesitas más personas para sostener los mismos procesos. Eso no es escalar — es crecer linealmente mientras tus costes suben igual o más rápido que tus ingresos.</p>
+            </div>
+            <div class="problem-card reveal">
+                <div class="problem-icon">🎯</div>
+                <h3>Sabes que necesitas IA pero no sabes por dónde empezar</h3>
+                <p>Has oído hablar de ChatGPT, agentes, automatización... pero nadie te ha dicho qué aplica a TU negocio, con TU estructura, con TUS datos. Necesitas alguien que hable tu idioma, no jerga técnica.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="servicios">
+    <div class="container">
+        <div class="section-tag reveal">Servicios</div>
+        <h2 class="section-title reveal">Dos formas de trabajar conmigo</h2>
+        <p class="section-desc reveal">Depende de lo que necesites: que te diga qué hacer, o que lo haga directamente.</p>
+        <div class="services-grid">
+            <div class="service-card reveal">
+                <div class="service-icon">🧠</div>
+                <h3>Consultoría estratégica de IA</h3>
+                <p>Analizo tu empresa, identifico dónde la IA tiene impacto real en tu cuenta de resultados, y te entrego un plan de acción concreto con prioridades, costes y ROI estimado.</p>
+                <ul class="service-includes">
+                    <li>Auditoría de procesos y oportunidades de IA</li>
+                    <li>Plan de implementación priorizado por impacto</li>
+                    <li>Estimación de ahorro y ROI por cada solución</li>
+                    <li>Recomendaciones tecnológicas sin ataduras</li>
+                </ul>
+            </div>
+            <div class="service-card reveal">
+                <div class="service-icon">⚡</div>
+                <h3>Desarrollo de soluciones IA a medida</h3>
+                <p>Diseño y construyo la solución completa: automatizaciones, agentes de IA, flujos inteligentes, integraciones. Todo listo para producción, no demos que se rompen al escalar.</p>
+                <ul class="service-includes">
+                    <li>Automatización de procesos empresariales</li>
+                    <li>Agentes de IA para tareas complejas</li>
+                    <li>Integración de sistemas y datos</li>
+                    <li>Flujos inteligentes con IA generativa</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CASE STUDIES -->
+<section class="cases" id="casos">
+    <div class="container">
+        <div class="section-tag reveal">Resultados reales</div>
+        <h2 class="section-title reveal">Problemas reales. Impacto medible.</h2>
+        <p class="section-desc reveal">Cada proyecto de aquí abajo es una empresa real con un problema real que ahora está resuelto.</p>
+
+        <div class="case-grid">
+            <div class="case-card reveal">
+                <div class="case-main">
+                    <div class="case-industry">Viajes de lujo</div>
+                    <h3>Automatización integral de procesos en empresa especializada en viajes de lujo</h3>
+                    <p>Un trabajador dedicaba el 85% de su jornada laboral a tareas administrativas repetitivas — procesamiento de datos, gestión documental, coordinación entre sistemas. Diseñé e implementé un sistema de automatización que liberó prácticamente toda esa carga operativa.</p>
+                    <div class="case-highlight">
+                        <p>El resultado: una persona que antes estaba atrapada en tareas mecánicas ahora dedica su tiempo a lo que realmente genera valor — <strong>atención al cliente, estrategia y crecimiento del negocio.</strong></p>
+                    </div>
+                </div>
+                <div class="case-stats">
+                    <div class="case-stat">
+                        <span class="case-stat-value">85%</span>
+                        <span class="case-stat-label">Jornada liberada</span>
+                    </div>
+                    <div class="case-stat">
+                        <span class="case-stat-value">~1.500h</span>
+                        <span class="case-stat-label">Ahorradas al año</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="case-card reveal">
+                <div class="case-main">
+                    <div class="case-industry">Dirección financiera</div>
+                    <h3>30 horas mensuales devueltas a una Directora Financiera</h3>
+                    <p>Una directora financiera dedicaba más de 30 horas al mes a tareas de gestión repetitivas que no requerían su nivel de expertise ni su criterio estratégico. Implementé automatizaciones que eliminaron esa carga por completo.</p>
+                    <div class="case-highlight">
+                        <p><strong>360 horas al año.</strong> ¿Cuánto vale la hora de una directora financiera? Haz la cuenta. El ROI de esta automatización se pagó en el primer mes.</p>
+                    </div>
+                </div>
+                <div class="case-stats">
+                    <div class="case-stat">
+                        <span class="case-stat-value">30h</span>
+                        <span class="case-stat-label">Liberadas al mes</span>
+                    </div>
+                    <div class="case-stat">
+                        <span class="case-stat-value">360h</span>
+                        <span class="case-stat-label">Ahorradas al año</span>
+                    </div>
+                    <div class="case-stat">
+                        <span class="case-stat-value">Mes 1</span>
+                        <span class="case-stat-label">ROI recuperado</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="current-work reveal">
+            <div class="current-label">
+                <div class="pulse-dot"></div>
+                Trabajando actualmente en
+            </div>
+            <div class="current-tags">
+                <span class="current-tag">Agentes de IA autónomos</span>
+                <span class="current-tag">Automatizaciones empresariales</span>
+                <span class="current-tag">Flujos inteligentes con IA generativa</span>
+                <span class="current-tag">Integraciones de sistemas</span>
+                <span class="current-tag">Consultoría estratégica de IA</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process">
+    <div class="container">
+        <div class="section-tag reveal">Cómo funciona</div>
+        <h2 class="section-title reveal">Sin reuniones infinitas.<br>Sin meses de desarrollo.</h2>
+        <div class="process-steps">
+            <div class="step reveal">
+                <div class="step-number">01</div>
+                <div class="step-content">
+                    <h3>Me cuentas tu problema</h3>
+                    <p>Sin tecnicismos. Me dices qué proceso te quita tiempo, dónde pierdes dinero, o qué necesitas que funcione mejor. En una conversación corta entiendo tu situación completa.</p>
+                </div>
+            </div>
+            <div class="step reveal">
+                <div class="step-number">02</div>
+                <div class="step-content">
+                    <h3>Analizo y te propongo la solución</h3>
+                    <p>Estudio la viabilidad técnica, el impacto en tu negocio y el coste. Te presento una propuesta clara: qué voy a hacer, cuánto cuesta, y qué resultados puedes esperar. Sin sorpresas.</p>
+                </div>
+            </div>
+            <div class="step reveal">
+                <div class="step-number">03</div>
+                <div class="step-content">
+                    <h3>Desarrollo y entrego en producción</h3>
+                    <p>Construyo la solución con tecnología de producción real — no prototipos ni demos. La entrego funcionando, documentada, y con soporte para asegurar que todo va bien desde el primer día.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contacto">
+    <div class="container">
+        <div class="section-tag reveal">Contacto</div>
+        <h2 class="section-title reveal">¿Tienes un problema que<br>te cuesta tiempo o dinero?</h2>
+        <p class="section-desc reveal" style="margin: 0 auto 0;">Cuéntamelo. Sin compromiso, sin llamadas de 45 minutos, sin presentaciones. Si puedo resolverlo, te digo cómo y cuánto cuesta. Si no, te lo digo también.</p>
+        <div class="contact-box reveal">
+            <h3>Cuéntame tu problema</h3>
+            <p>Respondo en menos de 24 horas.</p>
+
+            <!-- FORMULARIO -->
+            <form id="contact-form" action="https://formsubmit.co/aritzabuin1@gmail.com" method="POST">
+                <!-- FormSubmit config -->
+                <input type="hidden" name="_subject" value="[Web] Nuevo contacto desde tu landing">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_template" value="table">
+                <input type="hidden" name="_next" value="">
+                <input type="text" name="_honey" style="display:none">
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="name">Nombre</label>
+                        <input type="text" id="name" name="Nombre" placeholder="Tu nombre" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="company">Empresa</label>
+                        <input type="text" id="company" name="Empresa" placeholder="Nombre de tu empresa">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="Email" placeholder="tu@empresa.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="problem">¿Cuál es tu problema?</label>
+                    <textarea id="problem" name="Problema" placeholder="Describe el proceso que quieres automatizar, el dato que no estás explotando, o el problema que te quita el sueño..." required></textarea>
+                </div>
+                <button type="submit" class="btn-submit">
+                    <span class="btn-submit-text">Enviar mensaje</span>
+                    <span class="btn-submit-arrow">&rarr;</span>
+                </button>
+            </form>
+
+            <!-- Mensaje post-envío -->
+            <div class="form-success" id="form-success">
+                <div class="check">✓</div>
+                <h4>Mensaje enviado</h4>
+                <p>Te respondo en menos de 24 horas. Revisa tu bandeja de entrada.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="container">
+        <div class="footer-links">
+            <a href="https://www.linkedin.com/in/aritz-abuin-gonzalez/" target="_blank" rel="noopener">LinkedIn</a>
+            <a href="mailto:aritzabuin1@gmail.com">aritzabuin1@gmail.com</a>
+        </div>
+        <p>&copy; 2026 Aritz Abuin &middot; Arquitecto de Soluciones IA</p>
+    </div>
+</footer>
+
+<script>
+    // ═══════ SMOOTH SCROLL (works everywhere, no anchor link issues) ═══════
+    function scrollTo(id) {
+        var el = document.getElementById(id);
+        if (el) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }
+
+    // ═══════ SCROLL REVEAL ═══════
+    var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(function(el) {
+        observer.observe(el);
+    });
+
+    // ═══════ FORM: Update _next URL once deployed ═══════
+    // FormSubmit.co sends submissions to aritzabuin1@gmail.com
+    // First submission: you'll get a confirmation email — click the link to activate.
+    // After that, every submission goes straight to your inbox.
+    //
+    // Once deployed on Vercel, update the _next hidden field value to your URL:
+    // e.g., "https://tu-dominio.vercel.app/gracias" or leave empty to stay on page.
+</script>
+
+</body>
+</html>
